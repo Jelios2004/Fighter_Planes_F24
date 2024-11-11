@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject enemy;
     public GameObject cloud;
+    public GameObject LifePowerUp;
     private int score;
     private int playerLives = 3;  // Player's initial lives
     
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(player, transform.position, Quaternion.identity);
         InvokeRepeating("CreateEnemy", 1f, 3f);
+        InvokeRepeating("CreateLifePowerUp", 3f, 9f);
         CreateSky();
         score = 0;
         scoreText.text = "Score: " + score;
@@ -46,6 +49,11 @@ public class GameManager : MonoBehaviour
     {
         // Random position for enemies, but ensure they spawn above the screen
         Instantiate(enemy, new Vector3(Random.Range(-9f, 9f), 7.5f, 0), Quaternion.identity);
+    }
+
+    void CreateLifePowerUp()
+    {
+        Instantiate(LifePowerUp, new Vector3(Random.Range(-8f, 8f), Random.Range(-4f, 4f), 0), Quaternion.identity);
     }
 
     void CreateSky()
