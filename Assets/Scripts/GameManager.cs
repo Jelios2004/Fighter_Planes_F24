@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject enemy;
     public GameObject cloud;
+    public GameObject coin;
     private int score;
 
     public TextMeshProUGUI scoreText;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         CreateSky();
         score = 0;
         scoreText.text = "Score: " + score;
+        InvokeRepeating("CreateCoin", 1f, 3f);
     }
 
     // Update is called once per frame
@@ -48,5 +50,9 @@ public class GameManager : MonoBehaviour
         score = score + howMuch;
         scoreText.text = "Score: " + score;
     }
-
+    
+   void CreateCoin()
+    {
+        Instantiate(coin, new Vector3(Random.Range(-9f, 9f), Random.Range(-9f, 9f), 0), Quaternion.identity);
+    }
 }
