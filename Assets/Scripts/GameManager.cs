@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-
     public GameObject player;
     public GameObject enemy;
     public GameObject cloud;
-    public GameObject coin;
     private int score;
-
-    public TextMeshProUGUI scoreText;
+    private int playerLives = 3;  // Player's initial lives
+    
+    public TextMeshProUGUI scoreText;  // Reference to score display
+    public TextMeshProUGUI livesText;  // Reference to lives display
 
     // Start is called before the first frame update
     void Start()
@@ -23,36 +22,53 @@ public class GameManager : MonoBehaviour
         CreateSky();
         score = 0;
         scoreText.text = "Score: " + score;
-        InvokeRepeating("CreateCoin", 1f, 3f);
+        livesText.text = "Lives: " + playerLives;  // Initialize lives display
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Any other update logic you need
+    }
+
+    public void LoseLife()
+    {
+        playerLives--;  // Decrease lives by 1
+        livesText.text = "Lives: " + playerLives;  // Update the UI text to show remaining lives
         
+        if (playerLives <= 0)
+        {
+            GameOver();
+        }
     }
 
     void CreateEnemy()
     {
+        // Random position for enemies, but ensure they spawn above the screen
         Instantiate(enemy, new Vector3(Random.Range(-9f, 9f), 7.5f, 0), Quaternion.identity);
     }
 
     void CreateSky()
     {
+        // Creating clouds in random positions across the screen
         for (int i = 0; i < 30; i++)
         {
-            Instantiate(cloud, transform.position, Quaternion.identity);
+            Vector3 cloudPosition = new Vector3(Random.Range(-9f, 9f), Random.Range(5f, 10f), 0);  // Random y position for variety
+            Instantiate(cloud, cloudPosition, Quaternion.identity);
         }
     }
 
-    public void EarnScore(int howMuch) 
-    {  
-        score = score + howMuch;
+    public void EarnScore(int howMuch)
+    {
+        score += howMuch;
         scoreText.text = "Score: " + score;
     }
-    
-   void CreateCoin()
+
+    public void GameOver()
     {
-        Instantiate(coin, new Vector3(Random.Range(-9f, 9f), Random.Range(-9f, 9f), 0), Quaternion.identity);
+        // Game over logic here
+        CancelInvoke("CreateEnemy");  // Stops enemy spawning
+        // Trigger game over UI or restart
     }
 }
+

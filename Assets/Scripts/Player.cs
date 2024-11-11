@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     private float horizontalInput;
     private float verticalInput;
     private float speed;
@@ -22,7 +20,7 @@ public class Player : MonoBehaviour
         speed = 6f;
         horizontalScreenLimit = 11.5f;
         verticalScreenLimit = 7.5f;
-        lives = 3;
+        lives = 3;  // Initialize player's lives to 3
     }
 
     // Update is called once per frame
@@ -57,9 +55,9 @@ public class Player : MonoBehaviour
 
     public void LoseALife()
     {
-        //lives = lives - 1;
-        //lives -= 1;
-        lives--;
+        lives--;  // Decrease player's lives
+        GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager.LoseLife();  // Call LoseLife method in GameManager to update lives display
         if (lives == 0)
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
@@ -67,3 +65,5 @@ public class Player : MonoBehaviour
         }
     }
 }
+
+
